@@ -1,0 +1,165 @@
+#1
+
+#1
+
+• ( ) A) int x; x == 10;
+• (x) B) int x = 10;
+• ( ) C) int x( ); x = '10';
+• ( ) D) int x { "10" };
+
+// respuesta es la B
+
+//en C++ para declarar (crear) una variable y definir (asignarle valor) se usa el operador =
+//int indica que es un numero entero
+//x es el nombre de la variable
+//= 10 asigna el valor a 10
+
+#2
+
+• (x) A) 3 3
+• ( ) B) 3 3.5
+• ( ) C) 3.5 3.5
+• ( ) D) 3 3.0
+
+// respuesta A
+
+//7/ 2  ambos son enteros entonces se hace división entera y el resultado es 3.
+//7 / 2.0  el segundo número es flotante (double) entonces la división es real el resultado 3.5.
+
+#3
+
+• ( ) A) true true false
+• (x) B) 0 1 1
+• ( ) C) 1 1 0
+• ( ) D) false true true
+
+#4
+
+• ( ) A) Error de compilación por asignación en if.
+• ( ) B) Entra al if siempre.
+• (x) C) Entra al else porque el valor es 0 tras la asignación.
+• ( ) D) Comportamiento indefinido
+
+#5
+
+• ( ) A) Nunca ejecuta si la condición es falsa.
+• (x) B) Ejecuta al menos una vez.
+• ( ) C) Ejecuta exactamente una vez.
+• ( ) D) Es más rápido por definición
+
+#6
+
+• ( ) A) cin << a << b;
+• ( ) B) cin >> a, b;
+• (x) C) cin >> a >> b;
+• ( ) D) cin (a, b);
+
+#7
+
+• (x) A) 11
+• ( ) B) 21
+• ( ) C) 10
+• ( ) D) 7
+
+#8
+
+• ( ) A) void f(int n&);
+• (x) B) void f(int& n);
+• ( ) C) void f(ref int n);
+• ( ) D) int& f(int n);
+
+#9
+
+• ( ) A) Termina por completo el bucle.
+• (x) B) Salta a la siguiente iteración.
+• ( ) C) Reinicia el contador a 0.
+• ( ) D) Salta dos iteraciones
+
+#10
+
+• ( ) A) (3 == 3) && !(2 > 5)
+• (x) B) (3 = 3) || (2 < 1)
+• ( ) C) !(3 == 3) || (2 > 5)
+• ( ) D) (3 != 3) && (2 <= 5)
+
+#2
+
+#1
+
+int a = 5, b = 2;
+std::cout << a + b * 3 << std::endl;
+
+//se evalua b * 3 = 2 * 3 = 6
+//luego a + 6 = 5 + 6 = 11
+//std::endl agrega un salto de linea
+
+//respuesta es 11
+
+#2
+
+int n = 0;
+while (n < 3) {
+    std::cout << n << " ";
+    n++;
+}
+
+//n = 0  imprime 0 
+//n = 1  imprime 1 
+//n = 2  imprime 2 
+//luego n = 3 la condición n < 3 es falsa y el ciclo termina, no hay salto de linea final
+
+//respuesta es 0 1 2
+
+#3
+
+int x = 10;
+if (x % 2 == 0)
+    std::cout << "par";
+else
+    std::cout << "impar";
+
+//% 2 calcula el residuo de dividir 10 / 2 que es 0
+//la condición x % 2 == 0 es verdadera entra al if
+
+// respuesta es par
+
+#4
+
+int i = 3;
+do {
+    std::cout << i--;
+} while (i > 0);
+
+//do-while ejecuta el bloque al menos una vez
+//dentro se imprime i y luego se decrementa (i--)
+
+
+#5
+
+int a = 1;
+int b = (a++ > 1) ? 100 : 200;
+std::cout << a << " " << b;
+
+//a++ usa el valor actual de a (1) y luego lo incrementa
+//se evalúa la condicion:
+//(a++ > 1)  (1 > 1) falso
+//como la condición es falsa se elige el valor después de los dos puntos : o sea 200
+//despues de evaluar  pasa de 1 - 2
+
+//respuesta 2
+            2000
+
+#3
+
+int max3(int a, int b, int c) {
+    int mayor;
+
+    if (a >= b && a >= c)
+        mayor = a;
+    else if (b >= a && b >= c)
+        mayor = b;
+    else
+        mayor = c;
+
+    return mayor;
+}
