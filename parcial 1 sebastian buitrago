@@ -1,4 +1,4 @@
-#1
+#1 SECCION A
 
 #1
 
@@ -9,22 +9,14 @@
 
 // respuesta es la B
 
-//en C++ para declarar (crear) una variable y definir (asignarle valor) se usa el operador =
-//int indica que es un numero entero
-//x es el nombre de la variable
-//= 10 asigna el valor a 10
-
 #2
 
-• (x) A) 3 3
-• ( ) B) 3 3.5
+• ( ) A) 3 3
+• (x) B) 3 3.5
 • ( ) C) 3.5 3.5
 • ( ) D) 3 3.0
 
-// respuesta A
-
-//7/ 2  ambos son enteros entonces se hace división entera y el resultado es 3.
-//7 / 2.0  el segundo número es flotante (double) entonces la división es real el resultado 3.5.
+// respuesta B CORREGIDO
 
 #3
 
@@ -84,7 +76,7 @@
 
 #2
 
-#1
+#1 SECCION B
 
 int a = 5, b = 2;
 std::cout << a + b * 3 << std::endl;
@@ -125,14 +117,10 @@ else
 
 #4
 
-int i = 3;
-do {
-    std::cout << i--;
-} while (i > 0);
+Salida de: #include usando espacio de nombres estándar;
+int main() { int i = 3; hacer { cout << i--; } while (i > 0); } Salida = 321
 
-//do-while ejecuta el bloque al menos una vez
-//dentro se imprime i y luego se decrementa (i--)
-
+CORREGIDO
 
 #5
 
@@ -149,17 +137,62 @@ std::cout << a << " " << b;
 //respuesta 2
             2000
 
-#3
+#3 SECCION C
 
-int max3(int a, int b, int c) {
-    int mayor;
+1#
 
-    if (a >= b && a >= c)
-        mayor = a;
-    else if (b >= a && b >= c)
-        mayor = b;
-    else
-        mayor = c;
-
-    return mayor;
+if (a >= b && a >= c) {
+    cout << "a es el mayor" << endl;
+} else if (b >= a && b >= c) {
+    cout << "b es el mayor" << endl;
+} else {
+    cout << "c es el mayor" << endl;
 }
+
+Devuelve el alcalde de tres enteros usando if/else
+int main(){ int a = 5; int b = 3; int c = 8;
+
+CORREGIDO
+
+2#
+
+int suma = 0;
+for (int i = a; i <= b; i++) {
+    suma += i;
+}
+
+cout << "La suma de los enteros entre " << a << " y " << b << " es: " << suma << endl;
+}
+
+Devuelve la suma de todos los enteros en [a, b] (se asume a <= b) usando un bucle.
+#include usando espacio de nombres estándar;
+
+int main() { int a, b; cout << "Presentar el valor de a: "; cin >> a; cout << "Presentar el valor de b: "; cin >> b;
+
+CORREGIDO
+
+3#
+
+if(n == 0) return d == 0;
+
+while (n > 0) {
+    int digito = n % 10;
+    if (digito == d) return true;
+    n /= 10;
+}
+return false;
+}
+
+Devuelve true si n (no negativo) contiene el dígito d (0–9). Operatores aritméticos de EE. UU.
+bool contieneDigito(int n, int d){ if(d < 0 || d > 9)devuelve falso;
+
+CORREGIDO
+
+4#
+
+Imprime la tabla de n del 1 al 10 con el formato exacto: nx i = resultado (un renglón por i) #include <stdio.h>
+void tablaMultiplicar(int n) { for (int i = 1; i <= 10; i++) { printf("%d x %d = %d\n", n, i, n *i); } }
+
+int main() { int num = 5; tablaMultiplicar(num); }
+
+CORREGIDO
