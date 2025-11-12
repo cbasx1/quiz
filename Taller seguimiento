@@ -1,0 +1,105 @@
+// -------------------- Clase Cliente -------------------- clase Cliente { public: string nombre; correo electrónico de cadena; teléfono de cuerda;
+
+Cliente(string n, string e, string t)
+    : nombre(n), email(e), telefono(t) {}
+
+void showInfo() const {
+    cout << "Cliente: " << nombre << "\n"
+         << "Email: " << email << "\n"
+         << "Teléfono: " << telefono << "\n";
+}
+};
+
+// -------------------- Clase Habitación -------------------- clase Habitación { public: int num; tipo de cadena; doble precioNoche; booleano disponible;
+
+Habitacion(int n, string t, double precio)
+    : num(n), tipo(t), precioNoche(precio), disponible(true) {}
+
+void setDisponible(bool status) {
+    disponible = status;
+}
+
+bool getDisponible() const {
+    return disponible;
+}
+
+void showInfo() const {
+    cout << "Habitación " << num << " (" << tipo << ") - "
+         << (disponible ? "Disponible" : "Ocupada")
+         << " - Precio por noche: $" << precioNoche << "\n";
+}
+
+static void mostrarHabitacionesDisponibles(const vector<Habitacion>& habitaciones) {
+    cout << "\nHabitaciones disponibles:\n";
+    for (const Habitacion& h : habitaciones) {
+        if (h.getDisponible()) {
+            h.showInfo();
+        }
+    }
+}
+};
+
+// -------------------- Clase Reserva -------------------- clase Reserva { public: Cliente cliente; habitación* habitación; string fechaEntrada; string fechaSalida;
+
+Reserva(Cliente c, Habitacion* h, string entrada, string salida)
+    : cliente(c), habitacion(h), fechaEntrada(entrada), fechaSalida(salida) {}
+
+void showInfo() const {
+    cout << "\n--- Reserva ---\n";
+    cliente.showInfo();
+    habitacion->showInfo();
+    cout << "Entrada: " << fechaEntrada << "\n";
+    cout << "Salida: " << fechaSalida << "\n";
+}
+
+double calcularCostoTotal(int noches) const {
+    return noches * habitacion->precioNoche;
+}
+};
+
+// -------------------- Clase Hotel -------------------- clase Hotel { public: string nombre; habitaciones vectoriales; clientes vectoriales; reservas vectoriales;
+
+Hotel(string n) : nombre(n) {}
+
+void agregarHabitacion(Habitacion h) {
+    habitaciones.push_back(h);
+}
+
+void registrarCliente(Cliente c) {
+    clientes.push_back(c);
+}
+
+void crearReserva(Cliente c, int numHabitacion, string entrada, string salida) {
+    for (Habitacion& h : habitaciones) {
+        if (h.num == numHabitacion && h.getDisponible()) {
+            reservas.push_back(Reserva(c, &h, entrada, salida));
+            h.setDisponible(false);
+            cout << "Reserva creada exitosamente.\n";
+            return;
+        }
+    }
+    cout << "No se pudo crear la reserva: habitación no disponible.\n";
+}
+
+void mostrarReservas() const {
+    for (const Reserva& r : reservas) {
+        r.showInfo();
+    }
+}
+};
+
+// -------------------- Función principal -------------------- int main() { Hotel miHotel("Hotel JuJa");
+
+miHotel.agregarHabitacion(Habitacion(101, "simple", 100.0));
+miHotel.agregarHabitacion(Habitacion(102, "doble", 150.0));
+miHotel.agregarHabitacion(Habitacion(103, "suite", 250.0));
+
+Cliente cliente1("Alejo Palacios", "JakeAlejandro@mail.com", "3001234567");
+miHotel.registrarCliente(cliente1);
+
+miHotel.crearReserva(cliente1, 102, "2025-11-10", "2025-11-13");
+
+miHotel.mostrarReservas();
+
+return 0;
+}
