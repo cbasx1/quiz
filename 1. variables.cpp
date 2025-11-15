@@ -1,3 +1,5 @@
+// 1 VARIABLES
+
 #include <iostream>
 using namespace std;
 
@@ -20,4 +22,8 @@ int main() {
 
 // int guarda numeros enteros sin decimales
 // float guarda numeros con decimales
+
 // char guarda un solo caracter
+
+// 2 OPERADORES
+
