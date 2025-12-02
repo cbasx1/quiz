@@ -1,0 +1,522 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+//////////////////////////////
+// Nivel 1: Getters y Setters
+//////////////////////////////
+
+class Vehiculo {
+private:
+    string marca;
+    string modelo;
+    int anio;
+    double velocidadMaxima;
+
+public:
+    // Constructor
+    Vehiculo(string m, string mod, int a, double v) {
+        setMarca(m);
+        setModelo(mod);
+        setAnio(a);
+        setVelocidadMaxima(v);
+    }
+
+    // Getters
+    string getMarca() const { return marca; }
+    string getModelo() const { return modelo; }
+    int getAnio() const { return anio; }
+    double getVelocidadMaxima() const { return velocidadMaxima; }
+
+    // Setters con validaciones
+    void setMarca(string m) { marca = m; }
+    void setModelo(string mod) { modelo = mod; }
+    void setAnio(int a) {
+        if (a > 1886) anio = a;
+        else cout << "Error: Año inválido\n";
+    }
+    void setVelocidadMaxima(double v) {
+        if (v > 0) velocidadMaxima = v;
+        else cout << "Error: Velocidad inválida\n";
+    }
+
+    // Métodos
+    virtual void mostrarInfo() const {
+        cout << "Marca: " << marca
+             << " | Modelo: " << modelo
+             << " | Año: " << anio
+             << " | Velocidad Máxima: " << velocidadMaxima << " km/h\n";
+    }
+
+    void acelerar(double incremento) {
+        if (incremento > 0) velocidadMaxima += incremento;
+    }
+};
+
+class Producto {
+private:
+    string codigo;
+    string nombre;
+    double precio;
+    int cantidad;
+
+public:
+    Producto(string c, string n, double p, int cant) {
+        setCodigo(c);
+        setNombre(n);
+        setPrecio(p);
+        setCantidad(cant);
+    }
+
+    // Getters
+    string getCodigo() const { return codigo; }
+    string getNombre() const { return nombre; }
+    double getPrecio() const { return precio; }
+    int getCantidad() const { return cantidad; }
+
+    // Setters con validaciones
+    void setCodigo(string c) { codigo = c; }
+    void setNombre(string n) { nombre = n; }
+    void setPrecio(double p) {
+        if (p >= 0) precio = p;
+        else cout << "Error: Precio inválido\n";
+    }
+    void setCantidad(int cant) {
+        if (cant >= 0) cantidad = cant;
+        else cout << "Error: Cantidad inválida\n";
+    }
+
+    // Métodos
+    double calcularValorTotal() const {
+        return precio * cantidad;
+    }
+
+    void aplicarDescuento(double porcentaje) {
+        if (porcentaje > 0 && porcentaje <= 100) {
+            precio -= precio * (porcentaje / 100.0);
+        }
+    }
+
+    void mostrarInfo() const {
+        cout << "Código: " << codigo
+             << " | Nombre: " << nombre
+             << " | Precio: $" << precio
+             << " | Cantidad: " << cantidad << endl;
+    }
+};
+
+//////////////////////////////
+// Nivel 2: Herencia Simple
+//////////////////////////////
+
+class Auto : public Vehiculo {
+private:
+    int numeroPuertas;
+    string tipoCombustible;
+
+public:
+    Auto(string m, string mod, int a, double v, int puertas, string combustible)
+        : Vehiculo(m, mod, a, v) {
+        numeroPuertas = puertas;
+        tipoCombustible = combustible;
+    }
+
+    void mostrarInfo() const override {
+        Vehiculo::mostrarInfo();
+        cout << "Puertas: " << numeroPuertas
+             << " | Combustible: " << tipoCombustible << endl;
+    }
+};
+
+class Motocicleta : public Vehiculo {
+private:
+    bool tieneAlaron;
+    int cilindrada;
+
+public:
+    Motocicleta(string m, string mod, int a, double v, bool alaron, int cil)
+        : Vehiculo(m, mod, a, v) {
+        tieneAlaron = alaron;
+        cilindrada = cil;
+    }
+
+    void mostrarInfo() const override {
+        Vehiculo::mostrarInfo();
+        cout << "Alarón: " << (tieneAlaron ? "Sí" : "No")
+             << " | Cilindrada: " << cilindrada << " cc" << endl;
+    }
+};
+
+//////////////////////////////
+// Nivel 2.2: Sistema Empleados
+//////////////////////////////
+
+class Empleado {
+protected:
+    string nombreCompleto;
+    string numeroEmpleado;
+    double salarioBase;
+
+public:
+    Empleado(string n, string num, double s)
+        : nombreCompleto(n), numeroEmpleado(num), salarioBase(s) {}
+
+    virtual void mostrarInfo() const {
+        cout << "Empleado: " << nombreCompleto
+             << " | Número: " << numeroEmpleado
+             << " | Salario Base: $" << salarioBase << endl;
+    }
+
+    virtual double calcularSalarioTotal() const = 0; // método abstracto
+};
+
+class EmpleadoTiempoCompleto : public Empleado {
+private:
+    string beneficios;
+    double bono;
+
+public:
+    EmpleadoTiempoCompleto(string n, string num, double s, string b, double bo)
+        : Empleado(n, num, s), beneficios(b), bono(bo) {}
+
+    double calcularSalarioTotal() const override {
+        return salarioBase + bono;
+    }
+
+    void mostrarInfo() const override {
+        Empleado::mostrarInfo();
+        cout << "Beneficios: " << beneficios
+             << " | Bono: $" << bono << endl;
+    }
+};
+
+class EmpleadoPorHoras : public Empleado {
+private:
+    int horasTrabajadas;
+    double tarifaPorHora;
+
+public:
+    EmpleadoPorHoras(string n, string num, double s, int h, double t)
+        : Empleado(n, num, s), horasTrabajadas(h), tarifaPorHora(t) {}
+
+    double calcularSalarioTotal() const override {
+        return horasTrabajadas * tarifaPorHora;
+    }
+
+    void mostrarInfo() const override {
+        Empleado::mostrarInfo();
+        cout << "Horas: " << horasTrabajadas
+             << " | Tarifa: $" << tarifaPorHora << endl;
+    }
+};
+
+//////////////////////////////
+// Programa principal
+//////////////////////////////
+
+int main() {
+    cout << "=== Nivel 1 ===\n";
+    Vehiculo auto1("Toyota", "Corolla", 2023, 180);
+    auto1.mostrarInfo();
+    auto1.acelerar(20);
+    auto1.mostrarInfo();
+
+    Producto laptop("001", "Laptop HP", 850.00, 5);
+    laptop.mostrarInfo();
+    cout << "Valor total: $" << laptop.calcularValorTotal() << endl;
+    laptop.aplicarDescuento(10);
+    laptop.mostrarInfo();
+
+    cout << "\n=== Nivel 2 ===\n";
+    Auto miAuto("Ford", "Mustang", 2023, 220, 4, "Gasolina");
+    Motocicleta miMoto("Harley-Davidson", "Sportster", 2023, 200, true, 1200);
+    miAuto.mostrarInfo();
+    miMoto.mostrarInfo();
+
+    cout << "\n=== Empleados ===\n";
+    EmpleadoTiempoCompleto emp1("Juan López", "001", 2000, "Seguro médico", 500);
+    EmpleadoPorHoras emp2("María García", "002", 0, 40, 15);
+
+    emp1.mostrarInfo();
+    cout << "Salario: $" << emp1.calcularSalarioTotal() << endl;
+
+    emp2.mostrarInfo();
+    cout << "Salario: $" << emp2.calcularSalarioTotal() << endl;
+
+    return 0;
+}
+
+#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
+
+//////////////////////////////
+// Nivel 3: Herencia Multinivel
+//////////////////////////////
+
+class Animal {
+protected:
+    string nombre;
+    int edad;
+    double peso;
+
+public:
+    Animal(string n, int e, double p) : nombre(n), edad(e), peso(p) {}
+
+    // Getters
+    string getNombre() const { return nombre; }
+    int getEdad() const { return edad; }
+    double getPeso() const { return peso; }
+
+    // Setters
+    void setNombre(string n) { nombre = n; }
+    void setEdad(int e) { if(e >= 0) edad = e; }
+    void setPeso(double p) { if(p > 0) peso = p; }
+
+    // Métodos virtuales
+    virtual void hacerSonido() const { cout << nombre << " hace un sonido genérico.\n"; }
+    virtual void mostrarInfo() const {
+        cout << "Animal: " << nombre << " | Edad: " << edad << " | Peso: " << peso << " kg\n";
+    }
+};
+
+class Mamifero : public Animal {
+protected:
+    bool tieneCola;
+
+public:
+    Mamifero(string n, int e, double p, bool cola) : Animal(n,e,p), tieneCola(cola) {}
+
+    void mostrarInfo() const override {
+        Animal::mostrarInfo();
+        cout << "Mamífero con cola: " << (tieneCola ? "Sí" : "No") << endl;
+    }
+};
+
+class Ave : public Animal {
+protected:
+    double envergaduraAlas;
+
+public:
+    Ave(string n, int e, double p, double alas) : Animal(n,e,p), envergaduraAlas(alas) {}
+
+    void mostrarInfo() const override {
+        Animal::mostrarInfo();
+        cout << "Ave con envergadura de alas: " << envergaduraAlas << " m\n";
+    }
+};
+
+// Clases finales
+class Perro : public Mamifero {
+public:
+    Perro(string n, int e, double p, bool cola) : Mamifero(n,e,p,cola) {}
+    void hacerSonido() const override { cout << nombre << " ladra: ¡Guau guau!\n"; }
+};
+
+class Gato : public Mamifero {
+public:
+    Gato(string n, int e, double p, bool cola) : Mamifero(n,e,p,cola) {}
+    void hacerSonido() const override { cout << nombre << " maúlla: ¡Miau!\n"; }
+};
+
+class Loro : public Ave {
+public:
+    Loro(string n, int e, double p, double alas) : Ave(n,e,p,alas) {}
+    void hacerSonido() const override { cout << nombre << " dice: ¡Hola!\n"; }
+};
+
+class Aguila : public Ave {
+public:
+    Aguila(string n, int e, double p, double alas) : Ave(n,e,p,alas) {}
+    void hacerSonido() const override { cout << nombre << " grita: ¡Kiiii!\n"; }
+};
+
+//////////////////////////////
+// Nivel 3.2: Sistema Bancario
+//////////////////////////////
+
+class Cuenta {
+protected:
+    string numeroCuenta;
+    string propietario;
+    double saldo;
+
+public:
+    Cuenta(string num, string prop, double s) : numeroCuenta(num), propietario(prop), saldo(s) {}
+
+    virtual void depositar(double monto) {
+        if(monto > 0) saldo += monto;
+    }
+
+    virtual void retirar(double monto) {
+        if(monto > 0 && monto <= saldo) saldo -= monto;
+        else cout << "Fondos insuficientes.\n";
+    }
+
+    virtual void mostrarInfo() const {
+        cout << "Cuenta: " << numeroCuenta << " | Propietario: " << propietario << " | Saldo: $" << saldo << endl;
+    }
+};
+
+class CuentaAhorro : public Cuenta {
+private:
+    double tasaInteres;
+
+public:
+    CuentaAhorro(string num, string prop, double s, double tasa) : Cuenta(num,prop,s), tasaInteres(tasa) {}
+
+    void generarInteres() {
+        saldo += saldo * tasaInteres;
+    }
+
+    void retirar(double monto) override {
+        if(monto > 0 && monto <= saldo) saldo -= monto;
+        else cout << "No puedes retirar más de tu saldo.\n";
+    }
+};
+
+class CuentaCorriente : public Cuenta {
+private:
+    double limiteDescubierto;
+
+public:
+    CuentaCorriente(string num, string prop, double s, double limite) : Cuenta(num,prop,s), limiteDescubierto(limite) {}
+
+    void retirar(double monto) override {
+        if(monto > 0 && monto <= saldo + limiteDescubierto) saldo -= monto;
+        else cout << "Límite de descubierto excedido.\n";
+    }
+};
+
+//////////////////////////////
+// Nivel 4: Sistema Universidades
+//////////////////////////////
+
+class Persona {
+protected:
+    string nombre;
+    int edad;
+    string cedula;
+
+public:
+    Persona(string n, int e, string c) : nombre(n), edad(e), cedula(c) {}
+
+    virtual void mostrarInfo() const {
+        cout << "Nombre: " << nombre << " | Edad: " << edad << " | Cédula: " << cedula << endl;
+    }
+};
+
+class Estudiante : public Persona {
+private:
+    string carrera;
+    double promedio;
+    int semestre;
+
+    // Clase Curso dentro de Estudiante
+    class Curso {
+    public:
+        string codigo;
+        string nombre;
+        int creditos;
+        string profesor;
+
+        Curso(string c, string n, int cr, string p) : codigo(c), nombre(n), creditos(cr), profesor(p) {}
+    };
+
+    vector<Curso> cursos;
+
+public:
+    Estudiante(string n, int e, string c, string car, double prom, int sem)
+        : Persona(n,e,c), carrera(car), promedio(prom), semestre(sem) {}
+
+    void matricularCurso(string cod, string nom, int cred, string prof) {
+        cursos.push_back(Curso(cod,nom,cred,prof));
+    }
+
+    double calcularPromedioActual() const { return promedio; }
+
+    void mostrarInfo() const override {
+        Persona::mostrarInfo();
+        cout << "Carrera: " << carrera << " | Promedio: " << promedio << " | Semestre: " << semestre << endl;
+        cout << "Cursos matriculados:\n";
+        for(const auto& curso : cursos) {
+            cout << "- " << curso.nombre << " (" << curso.codigo << "), Créditos: " << curso.creditos << ", Profesor: " << curso.profesor << endl;
+        }
+    }
+};
+
+class Profesor : public Persona {
+private:
+    string especialidad;
+    int aniosExperiencia;
+    int numeroEstudiantes;
+
+public:
+    Profesor(string n, int e, string c, string esp, int exp, int numEst)
+        : Persona(n,e,c), especialidad(esp), aniosExperiencia(exp), numeroEstudiantes(numEst) {}
+
+    bool estaDisponible(int horaDelDia) const {
+        return horaDelDia >= 8 && horaDelDia <= 16; // horario laboral
+    }
+
+    void mostrarInfo() const override {
+        Persona::mostrarInfo();
+        cout << "Especialidad: " << especialidad << " | Experiencia: " << aniosExperiencia
+             << " años | Estudiantes: " << numeroEstudiantes << endl;
+    }
+};
+
+class Personal : public Persona {
+private:
+    string puesto;
+    string departamento;
+    double salario;
+
+public:
+    Personal(string n, int e, string c, string p, string d, double s)
+        : Persona(n,e,c), puesto(p), departamento(d), salario(s) {}
+
+    double calcularSalarioMensual() const { return salario; }
+
+    void mostrarInfo() const override {
+        Persona::mostrarInfo();
+        cout << "Puesto: " << puesto << " | Departamento: " << departamento << " | Salario: $" << salario << endl;
+    }
+};
+
+//////////////////////////////
+// Programa principal
+//////////////////////////////
+
+int main() {
+    cout << "\n=== Nivel 3: Animales ===\n";
+    Perro perro("Rex", 5, 25, true);
+    Gato gato("Whiskers", 3, 4.5, false);
+    Loro loro("Tweety", 2, 0.5, 0.3);
+
+    perro.mostrarInfo(); perro.hacerSonido();
+    gato.mostrarInfo(); gato.hacerSonido();
+    loro.mostrarInfo(); loro.hacerSonido();
+
+    cout << "\n=== Nivel 3: Bancario ===\n";
+    CuentaAhorro ahorros("123456", "Carlos", 5000, 0.02);
+    CuentaCorriente corriente("789012", "Ana", 2000, 1000);
+
+    ahorros.depositar(1000);
+    ahorros.mostrarInfo();
+    ahorros.generarInteres();
+    ahorros.mostrarInfo();
+
+    corriente.retirar(2500);
+    corriente.mostrarInfo();
+
+    cout << "\n=== Nivel 4: Universidad ===\n";
+   Estudiante est("Luis Pérez", 20, "111222333", "Ingeniería", 4.2, 3);
+est.matricularCurso("MAT101", "Matemáticas I", 4, "Dr. Gómez");
+est.matricularCurso("PROG202", "Programación II", 3, "Ing. Ramírez");
+
+est.mostrarInfo();
+
+return 0;
+}
